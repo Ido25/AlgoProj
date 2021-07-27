@@ -1,7 +1,21 @@
 #include <iostream>
+#include "DataStructers\Graph.h"
+#include "Algorhitms.h"
 
 int main(){
 	
-	std::cout << "Hello, World!" << std::endl;
+	try{
+		Graph G;
+		
+		G.readGraph();
+		
+		Graph H;
+		H = algos::buildShortestPathsGraph(G);
+		
+		H.printGraph();
+	} catch(string msg){
+		cout << msg << endl;
+	}
+	
 	return 0;
 }
