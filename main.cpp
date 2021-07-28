@@ -2,17 +2,18 @@
 #include "DataStructers\Graph.h"
 #include "Algorhitms.h"
 
+//TODO: add check if Q/List/Graph is empty where needed
 int main(){
 	
 	try{
-		Graph G;
+		Graph G, res;
 		
 		G.readGraph();
+		G.printGraph();
 		
-		Graph H;
-		H = algos::buildShortestPathsGraph(G);
+		algos::buildShortestPathsGraph(G, res);
 		
-		H.printGraph();
+		res.printGraph();
 	} catch(string msg){
 		cout << msg << endl;
 	}

@@ -8,22 +8,25 @@ Queue::~Queue(){
 		curr = tmp;
 	}
 }
-void Queue::enqueue(Vertex *v){
+void Queue::enqueue(int v){
+	
+	Vertex *vertex = new Vertex(v);
 	
 	if(this->_size == 0){
-		this->_head = this->_tail = v;
+		this->_head = this->_tail = vertex;
 	}
 	else{
-		this->_tail->setPrev(v);
-		v->setNext(this->_tail);
-		v->setPrev(nullptr);
-		this->_tail = v;
+		this->_tail->setPrev(vertex);
+		vertex->setNext(this->_tail);
+		vertex->setPrev(nullptr);
+		this->_tail = vertex;
 	}
 	this->_size++;
 }
-Vertex *Queue::dequeue(){
+int Queue::dequeue(){
 	
 	Vertex *res = this->_head;
+	int vertex_data;
 	
 	if(this->_size == 1){
 		this->_head = this->_tail = nullptr;
@@ -36,5 +39,8 @@ Vertex *Queue::dequeue(){
 	if(this->_size > 0)
 		this->_size--;
 	
-	return res;
+	vertex_data = res->data();
+	delete res;
+	
+	return vertex_data;
 }

@@ -9,10 +9,10 @@ class Queue{
 	//////////////////DESTRUCTOR//////////////////
 	~Queue();
 	//////////////////METHODS//////////////////
-	void enqueue(Vertex *v);
-	Vertex *dequeue();
-	const Vertex &fornt(){ return *this->_head; };
-	const Vertex &back(){ return *this->_tail; };
+	void enqueue(int v);
+	int dequeue();
+	int fornt(){ return this->_head->data(); };
+	int back(){ return this->_tail->data(); };
 	int size(){ return this->_size; };
 	bool isEmpty(){ return this->size() == 0; };
 	void makeEmpty(){ delete this; };

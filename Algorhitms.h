@@ -5,7 +5,5 @@
 namespace algos{
   int *BFS(Graph &G, int vertex, int *pArr);
   void deleteLongPaths(Graph &Gs, int *dArr);
-  Graph buildShortestPathsGraph(Graph &G);
+  void buildShortestPathsGraph(Graph &G, Graph &H);
 }
-
-

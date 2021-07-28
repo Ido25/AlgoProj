@@ -22,7 +22,7 @@ bool List::find(int num){
 		curr = curr->getNext();
 	}
 	
-	return false;//We've past all of the nodes and didn'_t found num
+	return false;//We've past all of the nodes and didn't found num
 }
 void List::emptyList(){
 	
@@ -38,79 +38,95 @@ void List::emptyList(){
 	this->_head = this->_tail = nullptr;
 	this->_size = 0;
 }
-void List::insertToHead(Vertex *v){
+void List::insertToHead(int v){
+	
+	Vertex *vertex = new Vertex(v);
 	
 	if(this->_head == nullptr){
-		this->_head = this->_tail = v;
+		this->_head = this->_tail = vertex;
 	}
 	else{
-		v->setNext(this->_head);
-		this->_head->setPrev(v);
-		this->_head = v;
+		vertex->setNext(this->_head);
+		this->_head->setPrev(vertex);
+		this->_head = vertex;
 	}
 	this->_size++;
 }
-void List::insertToTail(Vertex *v){
+void List::insertToTail(int v){
+	
+	Vertex *vertex = new Vertex(v);
 	
 	if(this->_head == nullptr){
-		this->_head = this->_tail = v;
+		this->_head = this->_tail = vertex;
 	}
 	else{
-		v->setPrev(this->_tail);
-		this->_tail->setNext(v);
-		this->_tail = v;
+		vertex->setPrev(this->_tail);
+		this->_tail->setNext(vertex);
+		this->_tail = vertex;
 	}
 	this->_size++;
 }
-void List::deleteNode(int num){
+Vertex *List::deleteNode(int num){
 	
 	Vertex *curr = this->_head;
+	Vertex *res;
 	
-	while(curr != nullptr){
-		if(curr->data() == num){
-			if(curr->getPrev() == nullptr){//The list'_s head
-				if(curr->getNext() != nullptr){//Checking if it'_s a 1 Vertex list
-					curr->getNext()->setPrev(nullptr);
+	if(this->find(num)){
+		while(curr != nullptr){
+			if(curr->data() == num){
+				if(curr->getPrev() == nullptr){//The list'_s head
+					if(curr->getNext() != nullptr){//Checking if it's a 1 Vertex list
+						curr->getNext()->setPrev(nullptr);
+					}
+					this->_head = curr->getNext();
 				}
-				this->_head = curr->getNext();
+				else if(curr->getNext() == nullptr){//The list's tail. The list'_s size is necessarily greater than 1
+					curr->getPrev()->setNext(nullptr);
+					this->_tail = curr->getPrev();
+				}
+				else{//Somewhere in the middle
+					curr->getPrev()->setNext(curr->getNext());
+					curr->getNext()->setPrev(curr->getPrev());
+				}
+				
+				this->_size--;
+				res = curr->getNext();
+				delete curr;
+				return res;//returning the
 			}
-			else if(curr->getNext() == nullptr){//The list'_s tail. The list'_s size is necessarily greater than 1
-				curr->getPrev()->setNext(nullptr);
+			else{
+				curr = curr->getNext();
 			}
-			else{//Somewhere in the middle
-				curr->getPrev()->setNext(curr->getNext());
-				curr->getNext()->setPrev(curr->getPrev());
-			}
-			
-			delete curr;
-			return;
 		}
-		
-		curr = curr->getNext();
 	}
+	else
+		return nullptr;
 }
 void List::printAdjList(int u){
 	
+	static int cnt = 0;
 	Vertex *curr = this->_head;
 	
 	while(curr != nullptr){
-		cout << "(" << u << "," << curr->data() << "), ";
+		cout << ++cnt << ": (" << u << "," << curr->data() << ") " << endl;
 		
 		curr = curr->getNext();
 	}
 }
 void List::copyList(List &L){
 	
-	this->_size = L._size;
-	this->_head = new Vertex(L._head->data());
-	Vertex *currG = L._head->getNext();
-	Vertex *currThis = this->_head;
-	
-	while(currG != nullptr){
-		currThis->setNext(new Vertex(currG->data()));
-		currThis->getNext()->setPrev(currThis);
-		currThis = currThis->getNext();
-		currG = currG->getNext();
+	if(L.getSize() != 0){
+		this->_size = L._size;
+		this->_head = new Vertex(L.getHead()->data());
+		Vertex *currG = L._head->getNext();
+		Vertex *currThis = this->_head;
+		
+		while(currG != nullptr){
+			currThis->setNext(new Vertex(currG->data()));
+			currThis->getNext()->setPrev(currThis);
+			currThis = currThis->getNext();
+			currG = currG->getNext();
+		}
 	}
 }
 

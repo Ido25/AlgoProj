@@ -10,13 +10,15 @@ class List{
 	~List();
 	//////////////////METHODS//////////////////
 	bool find(int num);
-	void insertToHead(Vertex *v);
-	void insertToTail(Vertex *v);
-	void deleteNode(int num);
+	void insertToHead(int v);
+	void insertToTail(int v);
+	Vertex *deleteNode(int num);
 	void printAdjList(int u);
 	void emptyList();
 	void copyList(List &L);
 	bool isEmpty(){ return this->_size == 0; };
+	Vertex *getHead(){ return this->_head; };
+	int getSize(){ return this->_size; };
 	friend ostream &operator<<(ostream &os, List &L){
 		
 		Vertex *curr = L._head;
@@ -30,7 +32,6 @@ class List{
 		
 		return os;
 	}
-	Vertex *getHead(){ return this->_head; };
   
   private:
 	int _size;
