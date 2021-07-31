@@ -1,5 +1,6 @@
 #pragma once
 #include "List.h"
+#include "Queue.h"
 
 class Graph{
   public:
@@ -23,6 +24,7 @@ class Graph{
 	int isEmpty(){ return this->_size == 0 ? 1 : 0; };
 	void printGraph();
 	void makeGt(Graph &Gt);
+	void printBFSGraph(int s);
   private:
 	int _size;
 	List *_adj_arr;

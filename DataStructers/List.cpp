@@ -99,16 +99,15 @@ Vertex *List::deleteNode(int num){
 			}
 		}
 	}
-	else
-		return nullptr;
+	
+	return nullptr;
 }
 void List::printAdjList(int u){
 	
-	static int cnt = 0;
 	Vertex *curr = this->_head;
 	
 	while(curr != nullptr){
-		cout << ++cnt << ": (" << u << "," << curr->data() << ") " << endl;
+		cout << u << " " << curr->data() << " ";
 		
 		curr = curr->getNext();
 	}

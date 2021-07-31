@@ -70,7 +70,7 @@ void Graph::printGraph(){
 void Graph::readGraph(){
 	
 	int u, v;
-	string f_name;
+/*	string f_name;
 	fstream fp;
 	//TODO: change to stdin input
 	if(this->_size != 0){//Checking whether this graph is already allocated
@@ -100,7 +100,21 @@ void Graph::readGraph(){
 		this->_adj_arr[u].insertToHead(v);
 	}
 	
-	fp.close();
+	fp.close();*/
+	
+	cin >> this->_size;
+	this->_size++;
+	this->_adj_arr = new List[this->_size];
+	cin >> this->_s >> this->_t;
+	
+	while(!cin.eof()){
+		cin >> u >> v;
+		
+		if(this->_size <= u || this->_size <= v){
+			throw "error";
+		}
+		this->_adj_arr[u].insertToHead(v);
+	}
 }
 void Graph::makeGt(Graph &Gt){//Creating Gt graph
 	
@@ -119,6 +133,23 @@ void Graph::makeGt(Graph &Gt){//Creating Gt graph
 		
 		while(curr != nullptr){
 			Gt._adj_arr[curr->data()].insertToHead(i);// inserting the opposite edge to Gt
+			
+			curr = curr->getNext();
+		}
+	}
+}
+void Graph::printBFSGraph(int s){
+	
+	Queue Q;
+	Q.enqueue(s);
+	
+	while(!Q.isEmpty()){
+		int p_vertex = Q.dequeue();//The parent vertex
+		Vertex *curr = this->_adj_arr[p_vertex].getHead();
+		
+		while(curr != nullptr){
+			cout << p_vertex << " " << curr->data() << " ";
+			Q.enqueue(curr->data());
 			
 			curr = curr->getNext();
 		}

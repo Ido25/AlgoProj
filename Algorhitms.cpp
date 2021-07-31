@@ -54,29 +54,34 @@ namespace algos{
 	  Graph Gs(G), Gst;
 	  int *pArr = new int[G.getSize()], *GstParr, *GstDarr;
 	  int *dArr = BFS(Gs, Gs.getS(), pArr);
-	  
+	
 	  deleteLongPaths(Gs, dArr);
 	  
 	  Gs.makeGt(Gst);
+
 	  
 	  GstParr = new int[Gst.getSize()];
 	  GstDarr = BFS(Gst, Gst.getS(), GstParr);
-	  
+	
 	  for(int i = 1; i < Gst.getSize(); i++){
-		  if(!Gst.getAdjList(i).isEmpty()){
-			  Vertex *curr = Gst.getAdjList(i).getHead();
-			  
-			  while(curr != nullptr){
-				  if(GstDarr[curr->data()] == -1){
-					  curr = Gst.removeEdge(i, curr->data());
-				  }
-				  else{
-					  curr = curr->getNext();
-				  }
-			  }
+		  if(GstDarr[i] == -1){
+			  Gst.getAdjList(i).emptyList();
 		  }
+		  /*  if(!Gst.getAdjList(i).isEmpty()){
+				Vertex *curr = Gst.getAdjList(i).getHead();
+				
+				while(curr != nullptr){
+					if(GstDarr[curr->data()] == -1){
+						cout << "Removing- (" << i << "," << curr->data() << ")" << endl;
+						curr = Gst.removeEdge(i, curr->data());
+					}
+					else{
+						curr = curr->getNext();
+					}
+				}
+			}*/
 	  }
-	  
+	
 	  Gst.makeGt(res);
   }
 }
