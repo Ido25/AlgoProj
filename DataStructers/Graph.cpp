@@ -1,6 +1,6 @@
 #include "Graph.h"
 
-Graph::Graph(Graph &G){
+Graph::Graph(Graph &G){//copy constructor
 	
 	if(G.getSize() != 0){
 		this->_size = G._size;
@@ -21,7 +21,7 @@ Graph::~Graph(){
 }
 void Graph::makeEmptyGraph(int n){
 	
-	if(this->_size != 0){
+	if(this->_size != 0 && this->_adj_arr != nullptr){//checking whether the graph is already allocated
 		this->deleteGraph();
 		delete[] this->_adj_arr;
 	}
@@ -29,6 +29,11 @@ void Graph::makeEmptyGraph(int n){
 	this->_size = n + 1;
 	this->_adj_arr = new List[this->_size];
 }
+List &Graph::getAdjList(int u){
+	
+	if(u >= this->_size){ throw "err"; };
+	return this->_adj_arr[u];
+};
 void Graph::deleteGraph(){// This func deletes all the graph'_s adj lists
 	
 	if(this->_size != 0){
@@ -40,23 +45,31 @@ void Graph::deleteGraph(){// This func deletes all the graph'_s adj lists
 }
 bool Graph::isAdj(int u, int v){
 	
-	return this->_adj_arr[u].find(v);
-}
-int Graph::addEdge(int u, int v){
-	
-	this->_adj_arr[u].insertToHead(v);
-	
-	if(this->_adj_arr[u].find(v)){
-		return 1;
+	if(this->_size <= u && this->_size <= v){
+		return this->_adj_arr[v].find(u) || this->_adj_arr[u].find(v);
 	}
-	else{
-		return 0;
-	}
-}
-Vertex *Graph::removeEdge(int u, int v){
 	
-	if(!this->_adj_arr[u].isEmpty())
-		return this->_adj_arr[u].deleteNode(v);
+	return false;
+}
+int Graph::addEdge(int src, int dst){
+	
+	if(this->_size <= src && this->_size <= dst){
+		this->_adj_arr[src].insertToHead(dst);
+		
+		if(this->_adj_arr[src].find(dst)){
+			return 1;
+		}
+		else{
+			return 0;
+		}
+	}
+	
+	return 0;
+}
+Vertex *Graph::removeEdge(int src, int dst){
+	
+	if(src < this->_size && dst < this->_size && !this->_adj_arr[src].isEmpty())
+		return this->_adj_arr[src].deleteNode(dst);
 	
 	return nullptr;
 }
@@ -69,8 +82,9 @@ void Graph::printGraph(){
 }
 void Graph::readGraph(){
 	
-	int u, v;
-/*	string f_name;
+	char tmp1[MAX_SIZE], tmp2[MAX_SIZE];
+	int u, v, size;
+	string f_name;
 	fstream fp;
 	//TODO: change to stdin input
 	if(this->_size != 0){//Checking whether this graph is already allocated
@@ -86,23 +100,38 @@ void Graph::readGraph(){
 		throw "ERR: opening file";
 	}
 	
-	fp >> this->_size;
+	fp >> tmp1;//getting graph's size
+	size = atoi(tmp1);
+	if(size <= 0){ throw "err"; }
+	
+	this->_size = size;
 	this->_size++;
 	this->_adj_arr = new List[this->_size];//Creating the adj list array
 	
-	fp >> this->_s;
-	fp >> this->_t;
+	fp >> tmp1 >> tmp2;//getting s and t
+	u = atoi(tmp1);
+	v = atoi(tmp2);
+	if(this->inRange(u) && this->inRange(v)){
+		this->_s = u;
+		this->_t = v;
+	}
+	else{ throw "err"; }
 	
-	while(!fp.eof()){
-		fp >> u;
-		fp >> v;
-		
-		this->_adj_arr[u].insertToHead(v);
+	while(!fp.eof()){//getting edges
+		fp >> tmp1 >> tmp2;
+		u = atoi(tmp1);
+		v = atoi(tmp2);
+		if(this->inRange(u) && this->inRange(v)){
+			this->_adj_arr[u].insertToHead(v);
+		}
+		else{
+			throw "err";
+		}
 	}
 	
-	fp.close();*/
-	
-	cin >> this->_size;
+	fp.close();
+
+/*	cin >> this->_size;
 	this->_size++;
 	this->_adj_arr = new List[this->_size];
 	cin >> this->_s >> this->_t;
@@ -114,11 +143,11 @@ void Graph::readGraph(){
 			throw "error";
 		}
 		this->_adj_arr[u].insertToHead(v);
-	}
+	}*/
 }
 void Graph::makeGt(Graph &Gt){//Creating Gt graph
 	
-	if(Gt.getSize() != 0){
+	if(Gt.getSize() != 0){//checking whether the graph is already allocated
 		Gt.deleteGraph();
 		delete[] Gt._adj_arr;
 	}
@@ -128,7 +157,7 @@ void Graph::makeGt(Graph &Gt){//Creating Gt graph
 	Gt._s = this->_t;
 	Gt._t = this->_s;
 	
-	for(int i = 1; i < this->_size; i++){
+	for(int i = 1; i < this->_size; i++){//running on the vertexes
 		Vertex *curr = this->_adj_arr[i].getHead();
 		
 		while(curr != nullptr){
@@ -138,8 +167,9 @@ void Graph::makeGt(Graph &Gt){//Creating Gt graph
 		}
 	}
 }
-void Graph::printBFSGraph(int s){
+void Graph::printBFSGraph(int s){//printing the graph by it's BFS pass
 	
+	int cnt = 0;
 	Queue Q;
 	Q.enqueue(s);
 	
@@ -148,7 +178,7 @@ void Graph::printBFSGraph(int s){
 		Vertex *curr = this->_adj_arr[p_vertex].getHead();
 		
 		while(curr != nullptr){
-			cout << p_vertex << " " << curr->data() << " ";
+			cout << ++cnt << ": " << p_vertex << " " << curr->data() << " " << endl;
 			Q.enqueue(curr->data());
 			
 			curr = curr->getNext();

@@ -25,6 +25,10 @@ void Queue::enqueue(int v){
 }
 int Queue::dequeue(){
 	
+	if(this->_size <= 0){
+		return -1;//incase of an empty queue
+	}
+	
 	Vertex *res = this->_head;
 	int vertex_data;
 	

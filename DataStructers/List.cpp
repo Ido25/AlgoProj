@@ -16,7 +16,7 @@ bool List::find(int num){
 	
 	while(curr != nullptr){
 		if(curr->data() == num){
-			return true;//We found the num
+			return true;//We found num :)
 		}
 		
 		curr = curr->getNext();
@@ -80,7 +80,7 @@ Vertex *List::deleteNode(int num){
 					}
 					this->_head = curr->getNext();
 				}
-				else if(curr->getNext() == nullptr){//The list's tail. The list'_s size is necessarily greater than 1
+				else if(curr->getNext() == nullptr){//The list's tail. The list's size is necessarily greater than 1
 					curr->getPrev()->setNext(nullptr);
 					this->_tail = curr->getPrev();
 				}
@@ -92,7 +92,7 @@ Vertex *List::deleteNode(int num){
 				this->_size--;
 				res = curr->getNext();
 				delete curr;
-				return res;//returning the
+				return res;//returning the node's data
 			}
 			else{
 				curr = curr->getNext();
@@ -104,6 +104,7 @@ Vertex *List::deleteNode(int num){
 }
 void List::printAdjList(int u){
 	
+	static int cnt = 0;
 	Vertex *curr = this->_head;
 	
 	while(curr != nullptr){
