@@ -1,5 +1,4 @@
 /*
- * submitter: Ido Medina, ID: 316082106
  * This is the graph class
  * It's implemented by an array of Lists.
  * */

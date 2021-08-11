@@ -82,45 +82,32 @@ void Graph::printGraph(){
 }
 void Graph::readGraph(){
 	
-	char tmp1[MAX_SIZE], tmp2[MAX_SIZE];
 	int u, v, size;
-	string f_name;
-	fstream fp;
-	//TODO: change to stdin input
+	fstream fp("t1Errorin.txt");
+	
 	if(this->_size != 0){//Checking whether this graph is already allocated
 		this->deleteGraph();
 		delete[] this->_adj_arr;
 	}
 	
-	cout << "Please insert file'_s name: " << endl;
-	cin >> f_name;
+	fp >> size;//getting graph's size
 	
-	fp.open(f_name);
-	if(fp.fail()){
-		throw "ERR: opening file";
-	}
-	
-	fp >> tmp1;//getting graph's size
-	size = atoi(tmp1);
 	if(size <= 0){ throw "err"; }
 	
 	this->_size = size;
 	this->_size++;
 	this->_adj_arr = new List[this->_size];//Creating the adj list array
 	
-	fp >> tmp1 >> tmp2;//getting s and t
-	u = atoi(tmp1);
-	v = atoi(tmp2);
+	fp >> u >> v;//getting s and t
+	
 	if(this->inRange(u) && this->inRange(v)){
 		this->_s = u;
 		this->_t = v;
 	}
 	else{ throw "err"; }
 	
-	while(!fp.eof()){//getting edges
-		fp >> tmp1 >> tmp2;
-		u = atoi(tmp1);
-		v = atoi(tmp2);
+	while(!cin.eof()){//getting edges
+		fp >> u >> v;
 		if(this->inRange(u) && this->inRange(v)){
 			this->_adj_arr[u].insertToHead(v);
 		}
@@ -128,22 +115,6 @@ void Graph::readGraph(){
 			throw "err";
 		}
 	}
-	
-	fp.close();
-
-/*	cin >> this->_size;
-	this->_size++;
-	this->_adj_arr = new List[this->_size];
-	cin >> this->_s >> this->_t;
-	
-	while(!cin.eof()){
-		cin >> u >> v;
-		
-		if(this->_size <= u || this->_size <= v){
-			throw "error";
-		}
-		this->_adj_arr[u].insertToHead(v);
-	}*/
 }
 void Graph::makeGt(Graph &Gt){//Creating Gt graph
 	

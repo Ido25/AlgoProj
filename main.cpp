@@ -1,6 +1,4 @@
-/*
- * submitter: Ido Medina, ID: 316082106
- *
+/* *
  * This program gets a graph and 2 vertexes, t and s, and is prints the graph of the shortest paths from s to t.
  * It works by the algorithm that we got in the task description.
  * */
@@ -30,11 +28,8 @@ int main(){
 	double time_taken =
 			chrono::duration_cast<chrono::nanoseconds>(end - start).count();
 	time_taken *= 1e-9;
-	ofstream myfile("Measure.txt"); // The name of the file
-	myfile << "Time taken by function buildShortestPathsGraph is : " << fixed
-		   << time_taken << setprecision(9);
-	myfile << " sec" << endl;
-	myfile.close();
+	cout << "Time taken by function buildShortestPathsGraph is : " << fixed
+		 << time_taken << setprecision(9) << " sec" << endl;
 	
 	res.printGraph();
 	return 0;

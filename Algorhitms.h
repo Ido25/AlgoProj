@@ -1,5 +1,4 @@
 /*
- * submitter: Ido Medina, ID: 316082106
  * This file contains the algorithms that we need for the main program that are not a part of a class.
  * The BFS is implemented as we learned in class with a Queue and the parents arr
  * */

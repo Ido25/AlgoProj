@@ -1,5 +1,4 @@
 /*
- * submitter: Ido Medina, ID: 316082106
  * This is the List class.
  * It's implemented by a 2-way list of vertexes.
  * */

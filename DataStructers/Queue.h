@@ -1,5 +1,4 @@
 /*
- * submitter: Ido Medina, ID: 316082106
  * This is the Queue .
  * It's implemented with a 2-way linked list of vertexes.
  * */

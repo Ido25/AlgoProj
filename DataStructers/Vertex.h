@@ -1,5 +1,4 @@
 /*
- * submitter: Ido Medina, ID: 316082106
  * This is the Vertex class, we use it in the List and Queue classes
  * */
 #pragma once
